@@ -42,6 +42,11 @@ class Node {
     return this.parent != null ? this.parent.id : null;
   }
 
+  public void setParentId(Long id) {
+    this.parent = new Node();
+    this.parent.setId(id);
+  }
+
   public boolean getHasChildren() {
     if(this.childrens == null){
       return false;

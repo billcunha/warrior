@@ -31,6 +31,12 @@ class NodeController {
 
   @PostMapping("/node")
   Node newNode(@RequestBody Node newNode) {
+    if(newNode.getParentId() != null) {
+      if(!repository.existsById(newNode.getParentId())) {
+        throw new NodeNotFoundException(newNode.getParentId());
+      }
+    }
+
     return repository.save(newNode);
   }
 
@@ -52,7 +58,10 @@ class NodeController {
         if(newNode.getDetail() != null) {
           node.setDetail(newNode.getDetail());
         }
-        if(newNode.getParent() != null) {
+        if(newNode.getParentId() != null) {
+          if(!repository.existsById(newNode.getParentId())) {
+            throw new NodeNotFoundException(newNode.getParentId());
+          }
           node.setParent(newNode.getParent());
         }
         return repository.save(node);
